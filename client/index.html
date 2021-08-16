@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>瞬殺！安全仕事人</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0">
+    <meta name="description" content="NITMC-Procon Project">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.54.0/dist/phaser.min.js"></script>
+    <script src="https://cdn.socket.io/4.1.3/socket.io.js" crossorigin="anonymous"></script>
+    <!-- type="moduleを行うことでimportが使えるようになる" -->
+    <script type="module" src="./index.js"></script>
+    <link rel="stylesheet" href="./index.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.1.0/screenfull.min.js"
+        integrity="sha512-SGPHIoS+NsP1NUL5RohNpDs44JlF36tXLN6H3Cw+EUyenEc5zPXWqfw9D+xmvR00QYUYewQIJQ6P5yH82Vw6Fg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        window.addEventListener('keydown', switchFullScreen);
+        function switchFullScreen(event) {
+            if (event.key === "f") {
+                if (!isFullScreen()) {
+                    if (screenfull.isEnabled) {
+                        const element = document.querySelector("#game");
+                        screenfull.request(element);
+                    } else {
+                        alert("フルスクリーン未対応です");
+                    }
+                } else {
+                    screenfull.exit();
+                }
+            }
+        }
+        function isFullScreen() {
+            var fullscreen_flag = false;
+            if (document.fullscreenElement || document.mozFullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+                fullscreen_flag = true;
+            }
+            return fullscreen_flag;
+        }
+    </script>
+</head>
+
+<body>
+    <div id="game"></div>
+    <div class="overlay">
+        <div class="login">
+            <div class="login-icon">
+                <img class="login-icon" src="/images/logo.svg">
+            </div>
+            <div class="container">
+                <p id="desc">Loading...</p>
+                <p style="display: inline;">🔒</p>
+                <input class="roomid" type="text" id="room_id" placeholder="パスワード">
+                <div class="separate"></div>
+                <button class="push" id="join_room" onclick='room_button("join")'>Join Room</button>
+                <button class="push" id="create_room" onclick='room_button("create")'>Create Room</button>
+                <div class="separate"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function room_button(str) {
+            let success_flag = false
+            let roomid = document.getElementById("room_id").value
+            if(str == "join"){
+                //join process
+            }else if(str == "create"){
+                //create process
+            }
+            /*ログイン先が未完成のため一時的に全てtrueとする*/
+            success_flag = true
+            if(success_flag == true){//ログイン成功時
+                let overlays = Array.from( document.getElementsByClassName('overlay') ) ;
+                overlays.forEach(e =>{
+                    e.classList.add('disabled')
+                })
+            }
+        }
+        let overlays = Array.from( document.getElementsByClassName('overlay') ) ;
+        overlays.forEach(element => {
+            for (const eventName of ['mouseup','mousedown', 'touchstart', 'touchmove', 'touchend', 'touchcancel']){
+                element.addEventListener(eventName, e => e.stopPropagation(),{passive: true});
+            }
+        });
+    </script>
+</body>
+
+</html>
